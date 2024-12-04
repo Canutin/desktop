@@ -1,35 +1,52 @@
 {
-  "name": "canutin",
-  "version": "0.0.0-development",
-  "description": "Personal finance platform",
-  "main": "main.js",
-  "license": "Apache License 2.0",
-  "scripts": {
-    "start": "node scripts/sveltekit-start.js",
-    "dev": "electron-esbuild dev",
-    "build": "electron-esbuild build",
-    "test": "jest --watchAll",
-    "package:release": "node scripts/package-release.js",
-    "package:electron": "node scripts/package-electron.js && electron-builder"
-  },
-  "devDependencies": {
-    "@types/jest": "29.5.12",
-    "@types/node": "^20.12.10",
-    "electron": "^30.0.2",
-    "electron-builder": "^25.0.3",
-    "electron-esbuild": "^8.0.0",
-    "electron-store": "^8.1.0",
-    "esbuild": "^0.18.0",
-    "jest": "^29.5.0",
-    "rimraf": "^3.0.2",
-    "ts-jest": "^29.1.2",
-    "ts-node": "^10.9.1",
-    "typescript": "^4.7.4"
-  },
-  "author": {
-    "name": "Fernando Maclen",
-    "email": "hello@fernando.is",
-    "url": "https://fernando.is"
-  },
-  "private": true
+	"name": "canutin",
+	"version": "0.0.0-dev",
+	"private": true,
+	"scripts": {
+		"dev": "concurrently \"vite dev\" \"typesafe-i18n\" \"npm run pb\"",
+		"build": "vite build",
+		"preview": "vite preview",
+		"test": "playwright test",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"lint": "prettier --check . && eslint .",
+		"format": "prettier --write .",
+		"pb": "./pocketbase/pocketbase serve",
+		"pb:typegen": "pocketbase-typegen --db ./pocketbase/pb_data/data.db -o ./src/lib/pocketbase-types.ts",
+		"pb:seed": "vite-node ./src/lib/seed/index.ts",
+		"pb:clean": "rm -rf ./pocketbase/pb_data",
+		"typesafe-i18n": "typesafe-i18n"
+	},
+	"devDependencies": {
+		"@ianvs/prettier-plugin-sort-imports": "^4.3.1",
+		"@playwright/test": "^1.28.1",
+		"@sveltejs/adapter-auto": "^3.0.0",
+		"@sveltejs/kit": "^2.0.0",
+		"@sveltejs/vite-plugin-svelte": "^4.0.0-next.6",
+		"@types/eslint": "^9.6.0",
+		"@types/papaparse": "^5.3.14",
+		"concurrently": "^8.2.2",
+		"eslint": "^9.0.0",
+		"eslint-config-prettier": "^9.1.0",
+		"eslint-plugin-svelte": "^2.36.0",
+		"globals": "^15.0.0",
+		"papaparse": "^5.4.1",
+		"pocketbase": "^0.21.5",
+		"pocketbase-typegen": "^1.2.1",
+		"prettier": "^3.1.1",
+		"prettier-plugin-svelte": "^3.1.2",
+		"svelte": "^5.0.0-next.1",
+		"svelte-check": "^3.6.0",
+		"typesafe-i18n": "^5.26.2",
+		"typescript": "^5.0.0",
+		"typescript-eslint": "^8.0.0",
+		"vite": "^5.0.3",
+		"vite-node": "^2.0.5"
+	},
+	"optionalDependencies": {
+		"@cloudflare/workerd-linux-64": "1.20240903.0",
+		"@rollup/rollup-linux-x64-gnu": "^4.21.2",
+		"@sveltejs/adapter-cloudflare": "^4.7.2"
+	},
+	"type": "module"
 }

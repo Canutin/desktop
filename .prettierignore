@@ -1,0 +1,18 @@
+# Package Managers
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# PocketBase migrations
+pocketbase/pb_migrations/*.js
+src/lib/pocketbase-types.ts
+
+# typesafe-i18n generated files
+src/i18n/i18n-svelte.ts
+src/i18n/i18n-types.ts
+src/i18n/i18n-util.async.ts
+src/i18n/i18n-util.sync.ts
+src/i18n/i18n-util.ts
+
+# Svelte 5 preview docs
+docs/

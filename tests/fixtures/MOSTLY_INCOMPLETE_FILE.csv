@@ -1,0 +1,6 @@
+"Date","Description","Withdrawal","Deposit","Note"
+"11/29/2025","Megalomart","$99.95","", "Valid transaction"
+"11/29/2025","Account verification","$0.00","", "Valid transaction, with an amount of $0.00"
+"","Strickland Propane","$24.95","","Missing date"
+"12/02/2025","","$20.00","", "Missing description"
+"12/01/2025","Wire transfer","","", "Missing amounts"

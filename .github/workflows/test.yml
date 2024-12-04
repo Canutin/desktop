@@ -2,54 +2,32 @@ name: Test
 
 on:
   pull_request:
-    branches: [main, master, develop]
 
 jobs:
-  Electron:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-      - name: Install dependencies
-        run: npm ci
-      - name: Run unit tests
-        run: npx jest --ci
-
-  SvelteKit:
-    strategy:
-      matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
-        browser: [chromium, firefox, webkit]
-
-    name: SvelteKit (${{ matrix.os }} - ${{ matrix.browser }})
+  integration-tests:
+    name: Integration tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
 
       - name: Install dependencies
-        working-directory: ./sveltekit
         run: npm ci
 
-      - name: Install Prisma's dependencies
-        working-directory: ./sveltekit
-        run: npx prisma generate
+      - name: Download PocketBase
+        run: |
+          wget https://github.com/pocketbase/pocketbase/releases/download/v0.21.3/pocketbase_0.21.3_linux_amd64.zip
+          unzip pocketbase_0.21.3_linux_amd64.zip -d pocketbase
+          chmod +x pocketbase/pocketbase
 
-      - name: Install Playwright Browser
-        working-directory: ./sveltekit
-        run: npx playwright install --with-deps ${{ matrix.browser }} chromium
+      - name: Install Playwright dependencies
+        run: npx playwright install --with-deps chromium
 
       - name: Run Playwright tests
-        working-directory: ./sveltekit
         run: npm test
-        env:
-          NODE_ENV: CI
-          BROWSER: ${{ matrix.browser }}
 
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: ${{ matrix.browser }}-${{ matrix.os }}-test-results
-          path: |
-            sveltekit/test-results/
-            sveltekit/**/*.vault
+          name: test-results
+          path: test-results/
